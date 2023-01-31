@@ -13,7 +13,7 @@ function carga_ajax_get(ruta, valor1, div) {
 
 }
 function confirmaAlert(pregunta, ruta) {
-    jCustomConfirm(pregunta, 'Tamila', 'Aceptar', 'Cancelar', function (r) {
+    jCustomConfirm(pregunta, 'WAEM', 'Aceptar', 'Cancelar', function (r) {
         if (r) {
             window.location = ruta;
         }
