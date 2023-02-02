@@ -135,7 +135,7 @@ class AccesoController extends Controller
         if(is_object($email))
         {
                 $token = $this->generar_token();
-            $url = "http://localhost/Projects/Laravel/ejemplo1/public/acceso/recuperar_password/?token=".$token;
+            $url = "http://localhost/Projects/Laravel/ejemplo1/public/acceso/recuperar_password/?token=".$token."&user_email=".$request->input('correo');
             $html= '<a href='.$url.'>Link</a>';
             $correo=new EjemploMailable($html );
             Mail::to(['email'=>$request->input('correo')])->send($correo);
