@@ -9,6 +9,9 @@ use App\Models\User;
 use App\Models\UserMetadata;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\EjemploMailable;
+use Illuminate\Support\Facades\Mail;
+use App\Models\ResetPassword;
 
 class AccesoController extends Controller
 {
@@ -111,4 +114,58 @@ class AccesoController extends Controller
         $request->session()->flash('mensaje', 'Cerraste la sesión exitosamente');
         return redirect()->route('acceso_login');
     }
+
+    public function acceso_recuperar()
+    { 
+        return view('acceso.recuperar' );
+    }
+
+    public function acceso_recuperar_post(Request $request){
+        $request->validate(
+            [
+                'correo' => 'required|email:rfc,dns' 
+            ],
+            [
+                'correo.required'=>'El campo E-Mail está vacío',
+                'correo.email'=>'El E-Mail ingresado no es válido',
+            ]
+        );
+        $email=User::where(['email'=>$request->input('correo')])->firstORFail();
+        // $status=ResetPassword::select(['select email from reset_password where email = '.$request->input('correo').' and status = 0']);
+        if(is_object($email))
+        {
+                $token = $this->generar_token();
+            $url = "http://localhost/Projects/Laravel/ejemplo1/public/acceso/recuperar_password/?token=".$token;
+            $html= '<a href='.$url.'>Link</a>';
+            $correo=new EjemploMailable($html );
+            Mail::to(['email'=>$request->input('correo')])->send($correo);
+            
+            ResetPassword::create(
+                [
+                    'user_email'=>$request->input('correo'),
+                    'token'=>$token,
+                    'fecha'=>date('Y-m-d'),
+                    'status'=>1
+                ]
+            );
+
+            $request->session()->flash('css', 'success');
+            $request->session()->flash('mensaje', "Se envió el mail exitosamente");
+            return redirect()->route('acceso_recuperar');
+            
+        }else{
+            $request->session()->flash('css', 'danger');
+            $request->session()->flash('mensaje', "Ese correo no esta registrado");
+            return redirect()->route('acceso_recuperar');
+        }
+        
+    }
+
+    public function generar_token(){
+        $ran = random_bytes(10);
+        $token = bin2hex($ran);
+        $token = $token.date("YmdHis");
+        return $token;
+   }
+
 }

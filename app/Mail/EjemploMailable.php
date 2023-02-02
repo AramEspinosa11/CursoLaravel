@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class EjemploMailable extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject="Tienda virtual";
+    public $subject="Recuperar cuenta";
     public $texto="";
     public $adjunto="vacio";
     /**

@@ -26,6 +26,8 @@ use App\Http\Controllers\WebpayController;
 
 use App\Http\Controllers\PaypalController;
 
+use App\Http\Controllers\Recuperar;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +42,7 @@ use App\Http\Controllers\PaypalController;
 
 Route::get('/', [HomeController::class, 'home_inicio'])->name('home_inicio');
 Route::get('/hola', [HomeController::class, 'home_hola'])->name('home_hola');
-Route::get('/parametros/{id}/{slug}', [HomeController::class, 'home_parametros'])->name('home_parametros');
+Route::get('/parametros/token={id}/slug={slug}', [HomeController::class, 'home_parametros'])->name('home_parametros');
 
 Route::get('/template', [TemplateControler::class, 'template_inicio'])->name('template_inicio');
 Route::get('/template/stack', [TemplateControler::class, 'template_stack'])->name('template_stack');
@@ -107,6 +109,11 @@ Route::post('/acceso/login', [AccesoController::class, 'acceso_login_post'])->na
 Route::get('/acceso/registro', [AccesoController::class, 'acceso_registro'])->name('acceso_registro');
 Route::post('/acceso/registro', [AccesoController::class, 'acceso_registro_post'])->name('acceso_registro_post');
 Route::get('/acceso/salir', [AccesoController::class, 'acceso_salir'])->name('acceso_salir');
+Route::get('/acceso/recuperar', [AccesoController::class, 'acceso_recuperar'])->name('acceso_recuperar');
+Route::post('/acceso/recuperar', [AccesoController::class, 'acceso_recuperar_post'])->name('acceso_recuperar_post');
+Route::get('/acceso/recuperar_password/', [Recuperar::class, 'acceso_recuperar_token'])->name('acceso_recuperar_token');
+Route::post('/acceso/recuperar_password/', [Recuperar::class, 'acceso_new_password_post'])->name('acceso_new_password_post');
+
 
 Route::get('/protegida', [ProtegidaController::class, 'protegida_inicio'])->name('protegida_inicio');
 Route::get('/protegida/otra', [ProtegidaController::class, 'protegida_otra'])->name('protegida_otra');

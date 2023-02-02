@@ -6,7 +6,13 @@
 	<title></title>
 </head>
 <body>
-<h1>Mensaje desde el email</h1>
-<p>{!! $texto !!}</p>
+<div class="card text-bg-dark">
+	<img src="{{ asset('images/Laravel.png') }}" class="card-img" alt="">
+	<div class="card-img-overlay">
+	  <h5 class="card-title">Link para recuperar cuenta</h5>
+	  <p class="card-text">Da clic en el siguiente link y reestablece tu contraseña</p>
+	  <p class="card-text"><small>{!! $texto !!}</small></p>
+	</div>
+  </div>
 </body>
 </html>
